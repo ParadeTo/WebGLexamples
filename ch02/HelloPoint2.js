@@ -36,7 +36,8 @@ function main() {
   }
 
   // Pass vertex position to attribute variable
-  gl.vertexAttrib4f(a_Position, 0.0, 0.0, 0.0, 1)
+  // gl.vertexAttrib4f(a_Position, 0.0, 0.0, 0.0, 1)
+  gl.vertexAttrib1f(a_Position, 1.0, 0)
 
   // Specify the color for clearing <canvas>
   gl.clearColor(0.0, 0.0, 0.0, 1.0)
@@ -45,5 +46,5 @@ function main() {
   gl.clear(gl.COLOR_BUFFER_BIT)
 
   // Draw
-  gl.drawArrays(gl.POINTS, 0, 1)
+  gl.drawArrays(gl.POINTS, 0, 2)
 }
