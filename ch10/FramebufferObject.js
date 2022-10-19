@@ -76,6 +76,7 @@ function main() {
 
   // Enable depth test
   gl.enable(gl.DEPTH_TEST);   //  gl.enable(gl.CULL_FACE);
+  gl.enable(gl.CULL_FACE);
 
   var viewProjMatrix = new Matrix4();   // Prepare view projection matrix for color buffer
   viewProjMatrix.setPerspective(30, canvas.width/canvas.height, 1.0, 100.0);

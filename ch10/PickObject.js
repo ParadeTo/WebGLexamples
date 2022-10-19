@@ -152,9 +152,11 @@ function check(gl, n, x, y, currentAngle, u_Clicked, viewProjMatrix, u_MvpMatrix
   // Read pixel at the clicked position
   var pixels = new Uint8Array(4); // Array for storing the pixel value
   gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
-
   if (pixels[0] == 255) // The mouse in on cube if R(pixels[0]) is 255
     picked = true;
+  
+  debugger
+
   
   gl.uniform1i(u_Clicked, 0);  // Pass false to u_Clicked(rewrite the cube)
   draw(gl, n, currentAngle, viewProjMatrix, u_MvpMatrix); // Draw the cube

@@ -113,7 +113,7 @@ function initVertexBuffers(gl) {
     -5.0,
     1.0,
     1.0,
-    0.4
+    0.4,
   ])
   var n = 6
 

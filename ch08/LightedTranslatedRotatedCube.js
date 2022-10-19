@@ -13,7 +13,7 @@ var VSHADER_SOURCE =
   'void main() {\n' +
   '  gl_Position = u_MvpMatrix * a_Position;\n' +
      // Recalculate the normal based on the model matrix and make its length 1.
-  '  vec3 normal = normalize(vec3(u_NormalMatrix * a_Normal));\n' +
+  '  vec3 normal = normalize(vec3(a_Normal*u_NormalMatrix));\n' +
      // Calculate the dot product of the light direction and the orientation of a surface (the normal)
   '  float nDotL = max(dot(u_LightDirection, normal), 0.0);\n' +
      // Calculate the color due to diffuse reflection

@@ -1,9 +1,9 @@
 // HelloPint2.js (c) 2012 matsuda
 // Vertex shader program
 var VSHADER_SOURCE =
-  'attribute vec4 a_Position;\n' + // attribute variable
+  'attribute vec4 aPosition;\n' + // attribute variable
   'void main() {\n' +
-  '  gl_Position = a_Position;\n' +
+  '  gl_Position = aPosition;\n' +
   '  gl_PointSize = 10.0;\n' +
   '}\n'
 
@@ -29,7 +29,7 @@ function main() {
   }
 
   // Get the storage location of a_Position
-  var a_Position = gl.getAttribLocation(gl.program, 'a_Position')
+  var a_Position = gl.getAttribLocation(gl.program, 'aPosition')
   if (a_Position < 0) {
     console.log('Failed to get the storage location of a_Position')
     return

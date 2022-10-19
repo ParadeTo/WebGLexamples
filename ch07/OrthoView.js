@@ -79,9 +79,9 @@ function initVertexBuffers(gl) {
     -0.5,  0.4,  -0.2,  1.0,  0.0,  0.0,
      0.0, -0.6,  -0.2,  1.0,  0.0,  0.0, 
 
-     0.0,  0.5,   0.0,  0.0,  0.0,  1.0, // The front blue one 
-    -0.5, -0.5,   0.0,  0.0,  0.0,  1.0,
-     0.5, -0.5,   0.0,  0.0,  0.0,  1.0, 
+     0.0,  0.5,   0.3,  0.0,  0.0,  1.0, // The front blue one 
+    -0.5, -0.5,   0.3,  0.0,  0.0,  1.0,
+     0.5, -0.5,   0.3,  0.0,  0.0,  1.0, 
   ]);
   var n = 9
 
@@ -119,7 +119,7 @@ function initVertexBuffers(gl) {
 
 // The distances to the near and far clipping plane
 var g_near = 0.0,
-  g_far = 0.5
+  g_far = 2.0
 function keydown(ev, gl, n, u_ProjMatrix, projMatrix, nf) {
   switch (ev.keyCode) {
     case 39:

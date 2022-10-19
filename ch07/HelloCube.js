@@ -18,6 +18,7 @@ var FSHADER_SOURCE =
   'varying vec4 v_Color;\n' +
   'void main() {\n' +
   '  gl_FragColor = v_Color;\n' +
+  // '  gl_FragColor = vec4(0.4,0.4,0.0,1.0);\n' +
   '}\n';
 
 function main() {
@@ -45,7 +46,7 @@ function main() {
   }
 
   // Set clear color and enable hidden surface removal
-  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+  gl.clearColor(0.3, 0.3, 0.3, 0.5);
   gl.enable(gl.DEPTH_TEST);
 
   // Get the storage location of u_MvpMatrix
@@ -79,6 +80,7 @@ function initVertexBuffers(gl) {
   //  | |v7---|-|v4
   //  |/      |/
   //  v2------v3
+  // prettier-ignore
   var verticesColors = new Float32Array([
     // Vertex coordinates and color
      1.0,  1.0,  1.0,     1.0,  1.0,  1.0,  // v0 White
@@ -92,6 +94,8 @@ function initVertexBuffers(gl) {
   ]);
 
   // Indices of the vertices
+  // prettier-ignore
+
   var indices = new Uint8Array([
     0, 1, 2,   0, 2, 3,    // front
     0, 3, 4,   0, 4, 5,    // right

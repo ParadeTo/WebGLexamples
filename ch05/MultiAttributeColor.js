@@ -18,7 +18,7 @@ var FSHADER_SOURCE =
   'varying vec4 v_Color;\n' + // Receive the data from the vertex shader
   'uniform vec4 u_FragColor;\n' + // uniform変数
   'void main() {\n' +
-  '  gl_FragColor = u_FragColor;\n' +
+  '  gl_FragColor = v_Color;\n' +
   '}\n'
 
 function main() {
@@ -52,7 +52,7 @@ function main() {
   gl.clear(gl.COLOR_BUFFER_BIT)
 
   // Draw three points
-  gl.drawArrays(gl.POINTS, 0, n)
+  gl.drawArrays(gl.TRIANGLES, 0, n)
 }
 
 function initVertexBuffers(gl) {
@@ -85,7 +85,7 @@ function initVertexBuffers(gl) {
   gl.enableVertexAttribArray(a_Position) // Enable the assignment of the buffer object
 
   // Get the storage location of a_Position, assign buffer and enable
-  var a_Color = gl.getUniformLocation(gl.program, 'u_FragColor')
+  var a_Color = gl.getAttribLocation(gl.program, 'a_Color')
   if (a_Color < 0) {
     console.log('Failed to get the storage location of a_Color')
     return -1

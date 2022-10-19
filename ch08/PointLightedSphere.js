@@ -28,6 +28,7 @@ var VSHADER_SOURCE =
   '  vec3 ambient = u_AmbientLight * color.rgb;\n' +
      // Add the surface colors due to diffuse reflection and ambient reflection
   '  v_Color = vec4(diffuse + ambient, color.a);\n' + 
+  '  v_Color = color;\n' + 
   '}\n';
 
 // Fragment shader program
@@ -83,7 +84,7 @@ function main() {
   // Set the light color (white)
   gl.uniform3f(u_LightColor, 0.8, 0.8, 0.8);
   // Set the light direction (in the world coordinate)
-  gl.uniform3f(u_LightPosition, 5.0, 8.0, 7.0);
+  gl.uniform3f(u_LightPosition, 0.0, 0.0, 7.0);
   // Set the ambient light
   gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
 
@@ -96,7 +97,7 @@ function main() {
 
   // Calculate the view projection matrix
   mvpMatrix.setPerspective(30, canvas.width/canvas.height, 1, 100);
-  mvpMatrix.lookAt(0, 0, 6, 0, 0, 0, 0, 1, 0);
+  mvpMatrix.lookAt(0, 0, 10, 0, 0, 0, 0, 1, 0);
   mvpMatrix.multiply(modelMatrix);
   // Pass the model view projection matrix to u_MvpMatrix
   gl.uniformMatrix4fv(u_MvpMatrix, false, mvpMatrix.elements);

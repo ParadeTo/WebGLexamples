@@ -115,7 +115,7 @@ function animate(angle) {
   var elapsed = now - g_last
   g_last = now
   // Update the current rotation angle (adjusted by the elapsed time)
-  var newAngle = angle + (ANGLE_STEP * elapsed) / 10
+  var newAngle = angle + (ANGLE_STEP * elapsed) / 1000
   console.log(newAngle)
   return (newAngle %= 360)
 }

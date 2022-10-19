@@ -65,7 +65,7 @@ function main() {
   // Calculate the view projection matrix
   var viewProjMatrix = new Matrix4();
   viewProjMatrix.setPerspective(50.0, canvas.width / canvas.height, 1.0, 100.0);
-  viewProjMatrix.lookAt(20.0, 10.0, 30.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+  viewProjMatrix.lookAt(15.0, 0.0, 30.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
   // Register the event handler to be called when keys are pressed
   document.onkeydown = function(ev){ keydown(ev, gl, n, viewProjMatrix, u_MvpMatrix, u_NormalMatrix); };
@@ -74,7 +74,7 @@ function main() {
 }
 
 var ANGLE_STEP = 3.0;    // The increments of rotation angle (degrees)
-var g_arm1Angle = -90.0; // The rotation angle of arm1 (degrees)
+var g_arm1Angle = 0 //-90.0; // The rotation angle of arm1 (degrees)
 var g_joint1Angle = 0.0; // The rotation angle of joint1 (degrees)
 
 function keydown(ev, gl, n, viewProjMatrix, u_MvpMatrix, u_NormalMatrix) {

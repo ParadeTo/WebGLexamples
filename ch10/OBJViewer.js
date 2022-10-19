@@ -43,7 +43,7 @@ function main() {
   }
 
   // Set the clear color and enable the depth test
-  gl.clearColor(0.2, 0.2, 0.2, 1.0);
+  gl.clearColor(0.8, 0.8, 0.8, 1.0);
   gl.enable(gl.DEPTH_TEST);
 
   // Get the storage locations of attribute and uniform variables
@@ -73,7 +73,7 @@ function main() {
   viewProjMatrix.lookAt(0.0, 500.0, 200.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
   // Start reading the OBJ file
-  readOBJFile('cube.obj', gl, model, 60, true);
+  readOBJFile('/resources/light.obj', gl, model, 60, true);
 
   var currentAngle = 0.0; // Current rotation angle [degree]
   var tick = function() {   // Start drawing
@@ -115,7 +115,6 @@ function createEmptyArrayBuffer(gl, a_attribute, num, type) {
 // Read a file
 function readOBJFile(fileName, gl, model, scale, reverse) {
   var request = new XMLHttpRequest();
-
   request.onreadystatechange = function() {
     if (request.readyState === 4 && request.status !== 404) {
       onReadOBJFile(request.responseText, fileName, gl, model, scale, reverse);
@@ -235,8 +234,8 @@ OBJDoc.prototype.parse = function(fileString, scale, reverse) {
   var sp = new StringParser();  // Create StringParser
   while ((line = lines[index++]) != null) {
     sp.init(line);                  // init StringParser
-	var command = sp.getWord();     // Get command
-	if(command == null)	 continue;  // check null command
+	  var command = sp.getWord();     // Get command
+	  if(command == null)	 continue;  // check null command
 
     switch(command){
     case '#':
@@ -414,7 +413,7 @@ function onReadMTLFile(fileString, mtl) {
     case 'newmtl': // Read Material chunk
       name = mtl.parseNewmtl(sp);    // Get name
       continue; // Go to the next line
-    case 'Kd':   // Read normal
+    case 'Ke':   // Read normal
       if(name == "") continue; // Go to the next line because of Error
       var material = mtl.parseRGB(sp, name);
       mtl.materials.push(material);
@@ -467,6 +466,7 @@ OBJDoc.prototype.getDrawingInfo = function() {
     for(var j = 0; j < object.faces.length; j++){
       var face = object.faces[j];
       var color = this.findColor(face.materialName);
+      debugger
       var faceNormal = face.normal;
       for(var k = 0; k < face.vIndices.length; k++){
         // Set index

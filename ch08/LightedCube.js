@@ -69,7 +69,7 @@ function main() {
   // Set the light color (white)
   gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
   // Set the light direction (in the world coordinate)
-  var lightDirection = new Vector3([0.5, 3.0, 4.0]);
+  var lightDirection = new Vector3([1.0, 3.0, 1.0]);
   lightDirection.normalize();     // Normalize
   gl.uniform3fv(u_LightDirection, lightDirection.elements);
 

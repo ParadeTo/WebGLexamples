@@ -57,7 +57,8 @@ function main() {
   }
 
   // Color of Fog
-  var fogColor = new Float32Array([0.137, 0.231, 0.423]);
+  // var fogColor = new Float32Array([0.137, 0.231, 0.423]);
+  var fogColor = new Float32Array([0, 0, 0]);
   // Distance of fog [where fog starts, where fog completely covers object]
   var fogDist = new Float32Array([55, 80]);
   // Position of eye point (world coordinates)

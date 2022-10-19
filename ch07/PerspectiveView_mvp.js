@@ -80,9 +80,9 @@ function main() {
   // Prepare the model matrix for another pair of triangles
   modelMatrix.setTranslate(-0.75, 0, 0) // Translate 0.75 units along the negative x-axis
   // Modify only the model matrix
-  // gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements);
+  gl.uniformMatrix4fv(u_ModelMatrix, false, modelMatrix.elements)
 
-  // gl.drawArrays(gl.TRIANGLES, 0, n);   // Draw the triangles
+  gl.drawArrays(gl.TRIANGLES, 0, n) // Draw the triangles
 }
 
 function initVertexBuffers(gl) {

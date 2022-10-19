@@ -1,4 +1,4 @@
-// MultiPoint.js (c) 2012 matsuda
+// HelloTriangle.js (c) 2012 matsuda
 // Vertex shader program
 var VSHADER_SOURCE =
   'attribute vec4 a_Position;\n' +
@@ -41,12 +41,14 @@ function main() {
   // Clear <canvas>
   gl.clear(gl.COLOR_BUFFER_BIT)
 
-  // Draw three points
-  gl.drawArrays(gl.POINTS, 0, n)
+  // Draw the rectangle
+  gl.drawArrays(gl.POINT, 0, 4)
 }
 
 function initVertexBuffers(gl) {
-  var vertices = new Float32Array([0.0, 0.5, -0.5, -0.5, 0.5, -0.5])
+  var vertices = new Float32Array([
+    0, 0.5, -1.1, -0.5, 0.5, 1.1, 0.5, 0, 0.6, 0.2, 0.8, 0.4,
+  ])
   var n = 3 // The number of vertices
 
   // Create a buffer object
@@ -67,7 +69,7 @@ function initVertexBuffers(gl) {
     return -1
   }
   // Assign the buffer object to a_Position variable
-  gl.vertexAttribPointer(a_Position, 1, gl.FLOAT, false, 0, 0)
+  gl.vertexAttribPointer(a_Position, 3, gl.FLOAT, false, 0, 0)
 
   // Enable the assignment to a_Position variable
   gl.enableVertexAttribArray(a_Position)

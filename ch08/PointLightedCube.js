@@ -82,9 +82,9 @@ function main() {
   // Set the light color (white)
   gl.uniform3f(u_LightColor, 1.0, 1.0, 1.0);
   // Set the light direction (in the world coordinate)
-  gl.uniform3f(u_LightPosition, 2.3, 4.0, 3.5);
+  gl.uniform3f(u_LightPosition, 1.3, -1.0, 2.5);
   // Set the ambient light
-  gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
+  gl.uniform3f(u_AmbientLight, 0.1, 0.1, 1);
 
   var modelMatrix = new Matrix4();  // Model matrix
   var mvpMatrix = new Matrix4();    // Model view projection matrix
