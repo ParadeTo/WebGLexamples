@@ -16,16 +16,76 @@ var VSHADER_SOURCE =
   '}\n';
 
 // Fragment shader program
-var FSHADER_SOURCE =
-  '#ifdef GL_ES\n' +
-  'precision mediump float;\n' +
-  '#endif\n' +
-  'varying vec4 v_Color;\n' +
-  'void main() {\n' +
-  '  gl_FragColor = v_Color;\n' +
-  '}\n';
+var FSHADER_SOURCE = `
+#ifdef GL_ES
+precision mediump float;
+#endif
+varying vec4 v_Color;
+uniform sampler2D u_Sampler;
+uniform mat3 u_kernel;
+void main() {
+  vec2 texCoord = vec2(0.5, 0.5);
+  // vec4 color = vec4(0,0,0,0);
+  // for (int i=0; i<=2; i++) {
+  //   for (int j=0; j<=2; j++) {
+  //     color = u_kernel[i][j]*texture2D(u_Sampler, texCoord);
+  //   }
+  // }
+  gl_FragColor = texture2D(u_Sampler, texCoord);
+}
+`
 
-function main() {
+
+function loadTexture(gl, n) {
+  return new Promise((resolve, reject) => {
+    var texture = gl.createTexture() // Create a texture object
+    if (!texture) {
+      console.log('Failed to create the texture object')
+      return false
+    }
+  
+    // Get the storage location of u_Sampler
+    var u_Sampler = gl.getUniformLocation(gl.program, 'u_Sampler')
+    if (!u_Sampler) {
+      console.log('Failed to get the storage location of u_Sampler')
+      return false
+    }
+    var image = new Image() // Create the image object
+    if (!image) {
+      console.log('Failed to create the image object')
+      return false
+    }
+    // Register the event handler to be called on loading an image
+    image.onload = function () {
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1) // Flip the image's y axis
+      // Enable texture unit0
+      gl.activeTexture(gl.TEXTURE0)
+      // Bind the texture object to the target
+      gl.bindTexture(gl.TEXTURE_2D, texture)
+  
+      // Set the texture parameters
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+      // Set the texture image
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image)
+      console.log(image)
+      // Set the texture unit 0 to the sampler
+      gl.uniform1i(u_Sampler, 0)
+      resolve()
+      // gl.clear(gl.COLOR_BUFFER_BIT) // Clear <canvas>
+  
+      // gl.drawArrays(gl.TRIANGLE_STRIP, 0, n) // Draw the rectangle
+    }
+    // Tell the browser to load an image
+    image.src = '/resources/red.png'
+  
+    return true
+  })
+  
+}
+
+async function main() {
   // Retrieve <canvas> element
   var canvas = document.getElementById('webgl');
 
@@ -67,15 +127,21 @@ function main() {
     return;
   }
 
+  var u_kernel = gl.getUniformLocation(program, "u_kernel");   // 3x3 kernel to apply
+  var gaussian = new Float32Array([0.0625, 0.125, 0.0625, 0.125, 0.25, 0.125, 0.0625, 0.125, 0.0625]); 
+  gl.uniformMatrix3fv(u_kernel, false, gaussian);     
+
   // ビュー投影行列を計算
   var viewProjMatrix = new Matrix4();
   viewProjMatrix.setPerspective(30.0, canvas.width/canvas.height, 1.0, 5000.0);
   viewProjMatrix.lookAt(0.0, 500.0, 200.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
   // Start reading the OBJ file
-  readOBJFile('/resources/light.obj', gl, model, 60, true);
+  await readOBJFile('/resources/light.obj', gl, model, 60, true);
 
+  await loadTexture(gl)
   var currentAngle = 0.0; // Current rotation angle [degree]
+
   var tick = function() {   // Start drawing
     currentAngle = animate(currentAngle); // Update current rotation angle
     draw(gl, gl.program, currentAngle, viewProjMatrix, model);
@@ -114,14 +180,18 @@ function createEmptyArrayBuffer(gl, a_attribute, num, type) {
 
 // Read a file
 function readOBJFile(fileName, gl, model, scale, reverse) {
-  var request = new XMLHttpRequest();
-  request.onreadystatechange = function() {
-    if (request.readyState === 4 && request.status !== 404) {
-      onReadOBJFile(request.responseText, fileName, gl, model, scale, reverse);
+  return new Promise((resolve,reject) => {
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+      if (request.readyState === 4 && request.status !== 404) {
+        onReadOBJFile(request.responseText, fileName, gl, model, scale, reverse);
+        resolve()
+      }
     }
-  }
-  request.open('GET', fileName, true); // Create a request to acquire the file
-  request.send();                      // Send the request
+    request.open('GET', fileName, true); // Create a request to acquire the file
+    request.send();                      // Send the request
+  })
+
 }
 
 var g_objDoc = null;      // The information of OBJ file
@@ -146,7 +216,7 @@ var g_normalMatrix = new Matrix4();
 
 // 描画関数
 function draw(gl, program, angle, viewProjMatrix, model) {
-  if (g_objDoc != null && g_objDoc.isMTLComplete()){ // OBJ and all MTLs are available
+  if (g_objDoc != null /*&& g_objDoc.isMTLComplete()*/){ // OBJ and all MTLs are available
     g_drawingInfo = onReadComplete(gl, model, g_objDoc);
     g_objDoc = null;
   }

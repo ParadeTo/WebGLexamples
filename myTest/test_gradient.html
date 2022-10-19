@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      body {
+        background-color: black;
+      }
+      div {
+        width: 400px;
+        height: 400px;
+        border-radius: 200px;
+        background: radial-gradient(
+          /* center, */ rgba(255, 2, 128, 1),
+          rgba(204, 1.6, 102, 0.8)
+        );
+      }
+    </style>
+  </head>
+  <body>
+    <div></div>
+    <canvas id="canvas" width="600" height="600"></canvas>
+    <script>
+      window.onload = () => {
+        const $canvas = document.querySelector('#canvas')
+        const ctx = $canvas.getContext('2d')
+        const center = [300, 300]
+        const radius = 100
+        const e = 0.7
+        const start = [255, 255, 255, 1]
+        const end = [0, 0, 0, 1]
+        // ctx.beginPath()
+        for (let i = -radius; i <= radius; i++) {
+          for (let j = -radius; j <= radius; j++) {
+            const _r = Math.sqrt(
+              ((i / radius) * i) / radius + ((j / radius) * j) / radius
+            )
+
+            if (_r <= 1) {
+              let coe = (_r - e) / (1 - e)
+
+              const r = start[0] * (1 - coe) + end[0] * coe
+              const g = start[1] * (1 - coe) + end[1] * coe
+              const b = start[2] * (1 - coe) + end[2] * coe
+              const a = start[3] * (1 - coe) + end[3] * coe
+
+              ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`
+              ctx.fillRect(300 + i, 300 + j, 1, 1)
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
+
+<!-- https://www.shadertoy.com/view/4tjSWh -->
